@@ -76,8 +76,6 @@ final: prev: let
     }
   );
 in {
-  linuxPackages_6_6_uwe5622_sunxi = applyKernelPatches prev.linuxPackages_6_6;
   linuxPackages_6_12_uwe5622_sunxi = applyKernelPatches prev.linuxPackages_6_12;
-  linuxPackages_6_14_uwe5622_sunxi = applyKernelPatches prev.linuxPackages_6_14;
   uwe5622-firmware = prev.callPackage ./firmware.nix { };
 }
