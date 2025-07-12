@@ -1842,13 +1842,6 @@ index 55eda732610b..c26bfb3251b4 100644
  #include <uapi/linux/sched/types.h>
  #else
  #include <linux/sched.h>
-@@ -62,7 +62,7 @@ extern long int sdiohal_log_level;
- 	} while (0)
- #define sdiohal_pr_perf(fmt, args...) \
- 	do { if (sdiohal_log_level & SDIOHAL_PERF_LEVEL) \
- 	} while (0)
- #else
- #define sdiohal_normal(fmt, args...)
 @@ -301,8 +301,10 @@ struct sdiohal_data_t {
  	struct task_struct *rx_thread;
  	struct completion tx_completed;
