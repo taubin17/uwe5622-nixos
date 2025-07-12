@@ -1,0 +1,58 @@
+From 91893b59021192ce658fba5544040732ae162be8 Mon Sep 17 00:00:00 2001
+From: taubin <taubin1@jh.edu>
+Date: Wed, 9 Jul 2025 21:51:22 -0400
+Subject: [PATCH] Add missing parameters from dts
+
+---
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+index b340bbcb710de..93aca06a5c662 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+@@ -52,6 +52,24 @@ reg_vcc3v3: vcc3v3 {
+ 		vin-supply = <&reg_vcc5v>;
+ 		regulator-always-on;
+ 	};
++
++	reg_vcc_wifi_io: vcc-wifi-io {
++		/* Always on 1.8V/300mA regulator for WiFi and BT IO */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-wifi-io";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++		vin-supply = <&reg_vcc3v3>;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc 1>;
++		clock-names = "osc32k-out";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>; /* PG18 */
++		post-power-on-delay-ms = <200>;
++	};
+ };
+ 
+ &codec {
+@@ -81,6 +99,16 @@ &mmc0 {
+ 	status = "okay";
+ };
+ 
++&mmc1 {
++	vmmc-supply = <&reg_vcc3v3>;
++	vqmmc-supply = <&reg_vcc_wifi_io>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	mmc-ddr-1_8v;
++	status = "okay";
++};
++
+ &ohci1 {
+ 	status = "okay";
+ };
+-- 
+2.43.0
+

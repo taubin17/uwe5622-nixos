@@ -55,6 +55,9 @@ final: prev: let
       patch = ./0018-wireless-uwe5622-NixOS-support.patch;
     }
     {
+      patch = ./0019-Add-missing-zero2w-dts-nodes.patch;
+    }
+    {
       patch = null;
       extraStructuredConfig = with prev.lib.kernel; {
         AW_BIND_VERIFY = yes;
